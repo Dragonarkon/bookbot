@@ -23,6 +23,11 @@ def main():
         num_words = text_count(text)
 
         print(f"The {book_path} has {num_words} word(s).")
+        
+        num_character = character_count(text)
+
+        print(f"The {book_path} has {num_character} letter(s).")
+
 
     except Exception as e:
         # Handle any exceptions that might occur during the process
@@ -52,6 +57,16 @@ def text_count(text):
     words = text.split()
     #count the words in the list
     return len(words)
+
+def character_count(text):
+    letter_count = {}
+    lower_text = text.lower()
+    for letter in lower_text:
+        if letter in letter_count:
+            letter_count[letter] += 1
+        else:
+            letter_count[letter] = 1
+    return letter_count
 
 
 # Call the main function to execute the program
