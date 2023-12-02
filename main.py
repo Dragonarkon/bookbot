@@ -24,9 +24,9 @@ def main():
 
         print(f"The {book_path} has {num_words} word(s).")
         
-        num_character = character_count(text)
+        alpha_count, non_alpha_count = character_count(text)
 
-        print(f"The {book_path} has {num_character} letter(s).")
+        print(f"The {book_path} has the following letter counts:\n{alpha_count}\nand the following character counts:\n{non_alpha_count}")
 
 
     except Exception as e:
@@ -59,14 +59,48 @@ def text_count(text):
     return len(words)
 
 def character_count(text):
-    letter_count = {}
+    # Initialize two lists to store alphabetic and non-alphabetic characters
+    alpha_chars = []
+    non_alpha_chars = []
+
+    # Convert the input text to lowercase
     lower_text = text.lower()
-    for letter in lower_text:
-        if letter in letter_count:
-            letter_count[letter] += 1
+
+    # Iterate over each character in the lowercased text
+    for char in lower_text:
+        # If the character is alphabetic, add to the alpha_chars list
+        if char.isalpha():
+            alpha_chars.append(char)
+        # If the character is not alphabetic, add to the non_alpha_chars list
         else:
-            letter_count[letter] = 1
-    return letter_count
+            non_alpha_chars.append(char)
+
+    # Initialize a dictionary to store the count of each alphabetic character
+    alpha_count = {}
+    # Iterate over each character in the alpha_chars list
+    for letter in alpha_chars:
+        # If the character is already in the dictionary, increment its count
+        if letter in alpha_count:
+            alpha_count[letter] += 1
+        # If the character is not in the dictionary, add it with a count of 1
+        else:
+            alpha_count[letter] = 1
+
+    # Initialize a dictionary to store the count of each non-alphabetic character
+    non_alpha_count = {}
+    # Iterate over each character in the non_alpha_chars list
+    for char in non_alpha_chars:
+        # If the character is already in the dictionary, increment its count
+        if char in non_alpha_count:
+            non_alpha_count[char] += 1
+        # If the character is not in the dictionary, add it with a count of 1
+        else:
+            non_alpha_count[char] = 1
+
+    # Return the two dictionaries, one for alphabetic character counts and one for non-alphabetic character counts
+    return alpha_count, non_alpha_count
+
+
 
 
 # Call the main function to execute the program
