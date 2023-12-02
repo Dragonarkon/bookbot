@@ -17,29 +17,18 @@ def main():
 
     try:
         # Attempt to get the text from the book file
-        text = get_book_text(book_path)
-        # Print the text obtained from the book file
-        # print("Main function text:", text)
-        num_words = text_count(text)
-
-        #print(f"The {book_path} has {num_words} word(s).")
-        
-        alpha_count, non_alpha_count = character_count(text)
-
-
-
-        alpha_count_ordered, non_alpha_count_ordered = character_sorter(alpha_count, non_alpha_count)
-
-
-        #print(f"The {book_path} has the following letter counts:\n{alpha_count}\nand the following character counts:\n{non_alpha_count}")
-        text_report(book_path, num_words, alpha_count_ordered,non_alpha_count_ordered)
-
-
+        text = get_book_text(book_path)        
+        # Count the number of words in the text
+        num_words = text_count(text)        
+        # Call character_count to get 2 dicts: alpha_count for alphabets, non_alpha_count for non-alphabets
+        alpha_count, non_alpha_count = character_count(text)        
+        # Call character_sorter to convert the counts dicts into lists of tuples and sort them
+        alpha_count_ordered, non_alpha_count_ordered = character_sorter(alpha_count, non_alpha_count)        
+        # Call text_report to generate a report of the book including its path, number of words, and ordered character counts
+        text_report(book_path, num_words, alpha_count_ordered, non_alpha_count_ordered)
     except Exception as e:
         # Handle any exceptions that might occur during the process
         print(f"Error in main function: {e}")
-
-
 
 def get_book_text(path):
     try:
@@ -48,7 +37,7 @@ def get_book_text(path):
             # Read the content of the file
             content = f.read()
         # Print the content obtained from the file
-        # print("File content:", content)
+        #print("File content:", content)
         # Return the content of the file
         return content
     except Exception as e:
@@ -58,20 +47,18 @@ def get_book_text(path):
         raise
 
 def text_count(text):
-    #convert text to string
-    #split string
+    # Convert text to string
+    # Split string
     words = text.split()
-    #count the words in the list
+    # Count the words in the list
     return len(words)
 
 def character_count(text):
     # Initialize two lists to store alphabetic and non-alphabetic characters
     alpha_chars = []
     non_alpha_chars = []
-
     # Convert the input text to lowercase
     lower_text = text.lower()
-
     # Iterate over each character in the lowercased text
     for char in lower_text:
         # If the character is alphabetic, add to the alpha_chars list
@@ -80,7 +67,6 @@ def character_count(text):
         # If the character is not alphabetic, add to the non_alpha_chars list
         else:
             non_alpha_chars.append(char)
-
     # Initialize a dictionary to store the count of each alphabetic character
     alpha_count = {}
     # Iterate over each character in the alpha_chars list
@@ -91,7 +77,6 @@ def character_count(text):
         # If the character is not in the dictionary, add it with a count of 1
         else:
             alpha_count[letter] = 1
-
     # Initialize a dictionary to store the count of each non-alphabetic character
     non_alpha_count = {}
     # Iterate over each character in the non_alpha_chars list
@@ -102,34 +87,38 @@ def character_count(text):
         # If the character is not in the dictionary, add it with a count of 1
         else:
             non_alpha_count[char] = 1
-
     # Return the two dictionaries, one for alphabetic character counts and one for non-alphabetic character counts
     return alpha_count, non_alpha_count
 
 def character_sorter(alpha_count, non_alpha_count):
+    # Initialize empty lists to store the ordered character counts
     alpha_count_ordered = []
-    non_alpha_count_ordered = []
-    #print(alpha_count)
-
+    non_alpha_count_ordered = []    
+    # Iterate through the counts in alpha_count, adding each as a tuple to alpha_count_ordered
     for char, count in alpha_count.items():
         alpha_count_ordered.append((char, count))
-
+    # Sort alpha_count_ordered based on the characters
     alpha_count_ordered.sort()
+    # Repeat the process for non_alpha_count
     for char, count in non_alpha_count.items():
-        non_alpha_count_ordered.append((char, count))
-    
+        non_alpha_count_ordered.append((char, count))    
+    # Sort non_alpha_count_ordered based on the characters
     non_alpha_count_ordered.sort()
-    #print(alpha_count_ordered)
+    # Return the two sorted lists
     return alpha_count_ordered, non_alpha_count_ordered
 
-
 def text_report(text_path, num_words, alpha_count_ordered, non_alpha_count_ordered):
+    # Print the beginning of the report
     print(f"--- Begin report of {text_path} ---")
-    print(f"{num_words} words found\n\n")    
+    # Print the number of words found
+    print(f"{num_words} words found\n\n")   
+    # Iterate through the ordered alpha character counts and print each one
     for char, count in alpha_count_ordered:
-        print(f"The '{char}' character was found '{count}'times")
+        print(f"The '{char}' character was found '{count}' times")
+    # Repeat process for non alpha character counts
     for char, count in non_alpha_count_ordered:
-        print(f"The '{char}' character was found '{count}'times")
+        print(f"The '{char}' character was found '{count}' times")
+    # Print the end of the report
     print(f"--- End report ---")
 
 # Call the main function to execute the program
