@@ -22,11 +22,17 @@ def main():
         # print("Main function text:", text)
         num_words = text_count(text)
 
-        print(f"The {book_path} has {num_words} word(s).")
+        #print(f"The {book_path} has {num_words} word(s).")
         
         alpha_count, non_alpha_count = character_count(text)
 
-        print(f"The {book_path} has the following letter counts:\n{alpha_count}\nand the following character counts:\n{non_alpha_count}")
+
+
+        alpha_count_ordered, non_alpha_count_ordered = character_sorter(alpha_count, non_alpha_count)
+
+
+        #print(f"The {book_path} has the following letter counts:\n{alpha_count}\nand the following character counts:\n{non_alpha_count}")
+        text_report(book_path, num_words, alpha_count_ordered,non_alpha_count_ordered)
 
 
     except Exception as e:
@@ -100,8 +106,31 @@ def character_count(text):
     # Return the two dictionaries, one for alphabetic character counts and one for non-alphabetic character counts
     return alpha_count, non_alpha_count
 
+def character_sorter(alpha_count, non_alpha_count):
+    alpha_count_ordered = []
+    non_alpha_count_ordered = []
+    #print(alpha_count)
+
+    for char, count in alpha_count.items():
+        alpha_count_ordered.append((char, count))
+
+    alpha_count_ordered.sort()
+    for char, count in non_alpha_count.items():
+        non_alpha_count_ordered.append((char, count))
+    
+    non_alpha_count_ordered.sort()
+    #print(alpha_count_ordered)
+    return alpha_count_ordered, non_alpha_count_ordered
 
 
+def text_report(text_path, num_words, alpha_count_ordered, non_alpha_count_ordered):
+    print(f"--- Begin report of {text_path} ---")
+    print(f"{num_words} words found\n\n")    
+    for char, count in alpha_count_ordered:
+        print(f"The '{char}' character was found '{count}'times")
+    for char, count in non_alpha_count_ordered:
+        print(f"The '{char}' character was found '{count}'times")
+    print(f"--- End report ---")
 
 # Call the main function to execute the program
 main()
